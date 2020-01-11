@@ -23,7 +23,7 @@ jobs:
     - name: Publish nuget
       run : |
         echo $PWD
-        for f in ./*/bin/nupkg/*.nupkg
+        for f in ./bin/nupkg/*.nupkg
         do
           echo @$f
           curl -vX PUT -u "LokiMidgard:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/LokiMidgard/
