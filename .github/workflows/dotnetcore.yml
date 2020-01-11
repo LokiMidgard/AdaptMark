@@ -24,6 +24,7 @@ jobs:
       run : |
         for f in ./WindowsCommunityToolkit/bin/nupkg/*.nupkg
         do
+          echo @$f
           curl -vX PUT -u "LokiMidgard:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/LokiMidgard/
         done
       shell: bash
