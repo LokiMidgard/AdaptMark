@@ -22,7 +22,7 @@ jobs:
       run: dotnet pack ./Microsoft.Toolkit.Parsers/Microsoft.Toolkit.Parsers.csproj --configuration Release -p:VersionSuffix=6.0.0
     - name: Publish nuget
       run : |
-        for f in .\WindowsCommunityToolkit\bin\nupkg\*.nupkg
+        for f in ./*/bin/nupkg/*.nupkg
         do
           echo @$f
           curl -vX PUT -u "LokiMidgard:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/LokiMidgard/
