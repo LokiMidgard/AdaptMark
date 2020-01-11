@@ -18,9 +18,20 @@ jobs:
         dotnet-version: 3.0.100
     - name: Build with dotnet
       run: dotnet build ./Microsoft.Toolkit.Parsers/Microsoft.Toolkit.Parsers.csproj --configuration Release -p:VersionSuffix=6.0.0
-    - name: Pack
+    - name: Pack Toolki
+      run: dotnet pack ./Microsoft.Toolkit/Microsoft.Toolkit.csproj --configuration Release -p:VersionSuffix=6.0.0
+    - name: Publish nuget Toolkit
+      run : |
+        echo $PWD
+        for f in ./bin/nupkg/*.nupkg
+        do
+          echo @$f
+          curl -vX PUT -u "LokiMidgard:${{ secrets.GITHUB_TOKEN }}" -F package=@$f https://nuget.pkg.github.com/LokiMidgard/
+        done
+      shell: bash
+    - name: Pack Parser
       run: dotnet pack ./Microsoft.Toolkit.Parsers/Microsoft.Toolkit.Parsers.csproj --configuration Release -p:VersionSuffix=6.0.0
-    - name: Publish nuget
+    - name: Publish nuget Paraer
       run : |
         echo $PWD
         for f in ./bin/nupkg/*.nupkg
