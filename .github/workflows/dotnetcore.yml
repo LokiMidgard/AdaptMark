@@ -22,6 +22,7 @@ jobs:
       run: dotnet pack ./Microsoft.Toolkit.Parsers/Microsoft.Toolkit.Parsers.csproj --configuration Release -p:VersionSuffix=6.0.0
     - name: Publish nuget
       run : |
+        echo $PWD
         for f in ./*/bin/nupkg/*.nupkg
         do
           echo @$f
