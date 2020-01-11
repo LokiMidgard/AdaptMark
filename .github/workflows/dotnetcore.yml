@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
+        dotnet-version: 3.0.100
     - name: Build with dotnet
       run: dotnet build ./Microsoft.Toolkit.Parsers/Microsoft.Toolkit.Parsers.csproj --configuration Release -p:VersionSuffix=6.0.0 --version-suffix test-$(date +%Y%m%d%H%M%S)
     - name: Pack
