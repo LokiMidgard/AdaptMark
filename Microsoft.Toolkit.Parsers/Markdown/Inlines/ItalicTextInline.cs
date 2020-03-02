@@ -28,55 +28,43 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public IList<MarkdownInline> Inlines { get; set; }
 
         /// <summary>
-        /// Attempts to parse a italic text span.
+        /// Attempts to parse a bold text span.
         /// </summary>
-        public new class Parser : Parser<ItalicTextInline>
+        public class ParserAsterix : InlineSourundParser<ItalicTextInline>
         {
-            /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "*_";
-
-            /// <inheritdoc/>
-            protected override InlineParseResult<ItalicTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserAsterix"/> class.
+            /// </summary>
+            public ParserAsterix()
+                : base("*")
             {
-                // Check the first char.
-                char startChar = markdown[tripPos];
-                if (tripPos == maxEnd || (startChar != '*' && startChar != '_'))
-                {
-                    return null;
-                }
-
-                // Find the end of the span.  The end character (either '*' or '_') must be the same as
-                // the start character.
-                var innerStart = tripPos + 1;
-                int innerEnd = Common.IndexOf(markdown, startChar, tripPos + 1, maxEnd);
-                if (innerEnd == -1)
-                {
-                    return null;
-                }
-
-                // The span must contain at least one character.
-                if (innerStart == innerEnd)
-                {
-                    return null;
-                }
-
-                // The first character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]))
-                {
-                    return null;
-                }
-
-                // The last character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
-                {
-                    return null;
-                }
-
-                // We found something!
-                var result = new ItalicTextInline();
-                result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                return InlineParseResult.Create(result, tripPos, innerEnd + 1);
             }
+
+            /// <inheritdoc/>
+            protected override ItalicTextInline MakeInline(List<MarkdownInline> inlines) => new ItalicTextInline
+            {
+                Inlines = inlines,
+            };
+        }
+
+        /// <summary>
+        /// Attempts to parse a bold text span.
+        /// </summary>
+        public class ParserUnderscore : InlineSourundParser<ItalicTextInline>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserUnderscore"/> class.
+            /// </summary>
+            public ParserUnderscore()
+                : base("_")
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override ItalicTextInline MakeInline(List<MarkdownInline> inlines) => new ItalicTextInline
+            {
+                Inlines = inlines,
+            };
         }
 
         /// <summary>

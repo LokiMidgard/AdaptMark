@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// Helper class to configure default parser behavior
+        /// Helper class to configure default parser behavior.
         /// </summary>
         public class DefaultParserConfiguration
         {
@@ -59,9 +59,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <summary>
-            /// This parser should run before <typeparamref name="T"/>
+            /// This parser should run before <typeparamref name="T"/>.
             /// </summary>
-            /// <typeparam name="T">The Parser</typeparam>
+            /// <typeparam name="T">The Parser.</typeparam>
             public void Before<T>()
                 where T : Parser
             {
@@ -69,9 +69,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <summary>
-            /// This parser should run after <typeparamref name="T"/>
+            /// This parser should run after <typeparamref name="T"/>.
             /// </summary>
-            /// <typeparam name="T">The Parser</typeparam>
+            /// <typeparam name="T">The Parser.</typeparam>
             public void After<T>()
                 where T : Parser
             {
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// An Abstract base class of Block Parsers
+        /// An Abstract base class of Block Parsers.
         /// </summary>
         public abstract class Parser
         {
@@ -106,12 +106,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <summary>
-            /// Gets the Default ordering of this Parser (ever parser that comes after this one)
+            /// Gets the Default ordering of this Parser (ever parser that comes after this one).
             /// </summary>
             public IEnumerable<Type> DefaultBeforeParsers { get => defaultBeforeParsers ?? (defaultBeforeParsers = InitBefore()); }
 
             /// <summary>
-            /// Gets the Default ordering of this Parser (ever parser that comes before this one)
+            /// Gets the Default ordering of this Parser (ever parser that comes before this one).
             /// </summary>
             public IEnumerable<Type> DefaultAfterParsers { get => defaultAfterParsers ?? (defaultAfterParsers = InitAfter()); }
 
@@ -124,17 +124,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <summary>
-            /// Parses an Inline
+            /// Parses an Inline.
             /// </summary>
             /// <param name="markdown">The markdown text.</param>
-            /// <param name="minStart">The position that is the ealyst charackter that was not yet consumed by an inline.</param>
             /// <param name="tripPos">The position where the triping char matched.</param>
-            /// <param name="maxEnd">The position untill the text may be parsed.</param>
             /// <param name="document">The current parsing document.</param>
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
-            /// <remarks>May only be called if TripChar is empty or markdown[tripPos] is contained in TripChar</remarks>
-            public abstract InlineParseResult Parse(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
+            /// <remarks>May only be called if TripChar is empty or markdown[tripPos] is contained in TripChar.</remarks>
+            public abstract InlineParseResult Parse(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
 
             /// <summary>
             /// Gets the chars that if found means we might have a match. Empty if Tripchars are not supported.
@@ -143,26 +141,24 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// An Abstract Base class for parsing Blocks
+        /// An Abstract Base class for parsing Blocks.
         /// </summary>
         /// <typeparam name="TInline">The Type of inline that will be parsed.</typeparam>
         public abstract class Parser<TInline> : Parser
             where TInline : MarkdownInline
         {
             /// <summary>
-            /// Parses an Inline
+            /// Parses an Inline.
             /// </summary>
             /// <param name="markdown">The markdown text.</param>
-            /// <param name="minStart">The position that is the ealyst charackter that was not yet consumed by an inline.</param>
             /// <param name="tripPos">The position where the triping char matched.</param>
-            /// <param name="maxEnd">The position untill the text may be parsed.</param>
             /// <param name="document">The current parsing document.</param>
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
-            protected abstract InlineParseResult<TInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
+            protected abstract InlineParseResult<TInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
 
             /// <inheritdoc/>
-            public sealed override InlineParseResult Parse(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers) => this.ParseInternal(markdown, minStart, tripPos, maxEnd, document, ignoredParsers);
+            public sealed override InlineParseResult Parse(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers) => this.ParseInternal(markdown, tripPos, document, ignoredParsers);
         }
     }
 }

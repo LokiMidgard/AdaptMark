@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Title>Windows Community Toolkit .NET Standard Parsers</Title>
     <Description>
       This .NET standard library contains various parsers
@@ -13,6 +13,8 @@
     </Description>
     <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown RSS</PackageTags>
 
+    <LangVersion>8.0</LangVersion>
+    
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
@@ -23,6 +25,10 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 
 </Project>

@@ -60,7 +60,7 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(@"Some     `   spacy     text    `    with spaces",
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "Some     " },
-                    new CodeInline { Text = "spacy     text" },
+                    new CodeInline { Text = "  spacy     text   " },
                     new TextRunInline { Text = "    with spaces" }));
         }
 
@@ -212,7 +212,7 @@ namespace UnitTests.Markdown.Parse
                 after"),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "before" }),
-                new CodeBlock { Text = "Code\r\n    can\r\nbe  tabbed\r\nhole    tabbed" },
+                new CodeBlock { Text = "Code\r\n\tcan\r\nbe\ttabbed\r\nhole\ttabbed" },
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "after" }));
         }
@@ -265,7 +265,7 @@ namespace UnitTests.Markdown.Parse
                     Even more code
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before     Code         More code     Even more code after" }));
+                    new TextRunInline { Text = "before Code More code Even more code after" }));
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public IList<MarkdownBlock> Blocks { get; set; }
 
         /// <summary>
-        /// Parses QuoteBlock
+        /// Parses QuoteBlock.
         /// </summary>
         public new class Parser : Parser<QuoteBlock>
         {
@@ -37,140 +37,83 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
             {
                 base.ConfigureDefaults(configuration);
-                configuration.After<CodeBlock.Parser>();
+                configuration.After<CodeBlock.ParserIndented>();
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<QuoteBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<QuoteBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                var nonSpace = firstNonSpace;
-                if (markdown[nonSpace] != '>')
+                if (markdown.LineCount == 0)
                 {
                     return null;
                 }
 
-                // For Tests to pass this needs to be true. The Sample in the App suggests this must be false :(
-                bool quoteCanSpannMultipleBlankLines = false;
-
-                var lines = new List<ReadOnlyMemory<char>>();
-                var temporaryLines = new List<ReadOnlyMemory<char>>();
-                var newLine = startOfLine;
-                int endOfLine;
-                bool lastWasEmpty = false;
-                bool lastDidNotContainedQuoteCharacter = false;
-                var actualEnd = startOfLine;
-                while (true)
+                var nonSpace = markdown[0].IndexOfNonWhiteSpace();
+                if (nonSpace == -1 || markdown[startLine][nonSpace] != '>')
                 {
-                    endOfLine = Helpers.Common.FindNextSingleNewLine(markdown, newLine, maxEnd, out var nextLine);
-                    if (newLine == nextLine)
-                    {
-                        break;
-                    }
+                    return null;
+                }
 
-                    nonSpace = Helpers.Common.FindNextNoneWhiteSpace(markdown, newLine, endOfLine, false);
+                bool lastDidNotContainedQuoteCharacter = false;
 
+                var qutedBlock = markdown.SliceLines(startLine).RemoveFromLine((line, lineIndex) =>
+                {
+                    int startOfText;
+                    var nonSpace = line.IndexOfNonWhiteSpace();
                     if (nonSpace == -1)
                     {
-                        if (!quoteCanSpannMultipleBlankLines)
-                        {
-                            break;
-                        }
-
-                        if (!lastWasEmpty)
-                        {
-                            lastWasEmpty = true;
-                        }
+                        return (0, 0, true, true);
                     }
-                    else if (markdown[nonSpace] != '>')
+                    else if (line[nonSpace] != '>')
                     {
-                        if (lastWasEmpty || lastDidNotContainedQuoteCharacter)
+                        if (lastDidNotContainedQuoteCharacter)
                         {
-                            break;
+                            return (0, 0, true, true);
                         }
                         else
                         {
                             lastDidNotContainedQuoteCharacter = true;
+                            startOfText = nonSpace;
                         }
                     }
                     else
                     {
                         lastDidNotContainedQuoteCharacter = false;
-                        lastWasEmpty = false;
-                        lines.AddRange(temporaryLines);
-                        temporaryLines.Clear();
+                        startOfText = nonSpace + 1;
                     }
 
-                    var actualStart = nonSpace == -1 ? newLine : nonSpace;
-                    if (markdown[actualStart] == '>')
+                    if (startOfText >= line.Length)
                     {
-                        actualStart += 1;
+                        return (0, 0, false, false);
                     }
 
-                    if (actualStart < maxEnd && markdown[actualStart] == ' ')
+                    // ignore the first space aufter aqute character
+                    if (line[startOfText] == ' ')
                     {
-                        actualStart++;
+                        startOfText++;
                     }
 
-                    if (actualStart < maxEnd)
+                    if (startOfText >= line.Length)
                     {
-                        int length;
-                        if (endOfLine < maxEnd)
-                        {
-                            // nextline includes the line break no matter if it is 1 or 2 characters.
-                            length = nextLine - actualStart;
-                        }
-                        else
-                        {
-                            length = endOfLine - actualStart;
-                        }
-
-                        var memory = markdown.AsMemory(actualStart, length);
-                        if (lastWasEmpty)
-                        {
-                            temporaryLines.Add(memory);
-                        }
-                        else
-                        {
-                            actualEnd = nextLine;
-                            lines.Add(memory);
-                        }
-                    }
-                    else
-                    {
-                        if (lastWasEmpty)
-                        {
-                            temporaryLines.Add(Array.Empty<char>().AsMemory());
-                        }
-                        else
-                        {
-                            lines.Add(Array.Empty<char>().AsMemory());
-                            actualEnd = nextLine;
-                        }
+                        return (0, 0, false, false);
                     }
 
-                    newLine = nextLine;
-                }
+                    return (startOfText, line.Length - startOfText, false, false);
+                });
 
                 var result = new QuoteBlock();
 
-                if (lines.Count != 0)
+                if (qutedBlock.LineCount != 0)
                 {
-                    if (lines.Last().Length == 0)
-                    {
-                        lines.RemoveAt(lines.Count - 1);
-                    }
-
-                    var filteredString = new StringFilter(lines);
-
                     // Recursively call into the markdown block parser.
-                    result.Blocks = document.ParseBlocks(filteredString.ToString(), 0, filteredString.Length, out _);
+                    result.Blocks = document.ParseBlocks(qutedBlock);
                 }
                 else
                 {
                     result.Blocks = Array.Empty<MarkdownBlock>();
                 }
 
-                return BlockParseResult.Create(result, startOfLine, actualEnd);
+                return BlockParseResult.Create(result, startLine, qutedBlock.LineCount);
             }
         }
     }

@@ -31,28 +31,36 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parse HorizontalRule
+        /// Parse HorizontalRule.
         /// </summary>
         public new class Parser : Parser<HorizontalRuleBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<HorizontalRuleBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HorizontalRuleBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
+                var line = markdown[startLine];
+
                 // A horizontal rule is a line with at least 3 stars, optionally separated by spaces
                 // OR a line with at least 3 dashes, optionally separated by spaces
                 // OR a line with at least 3 underscores, optionally separated by spaces.
                 char hrChar = '\0';
                 int hrCharCount = 0;
-                int pos = startOfLine;
-                var nonSpaceChar = markdown[firstNonSpace];
+                int pos = 0;
+                var nonSpaceINdex = line.IndexOfNonWhiteSpace();
+                if (nonSpaceINdex == -1)
+                {
+                    return null;
+                }
+
+                var nonSpaceChar = line[nonSpaceINdex];
                 if (nonSpaceChar != '*' && nonSpaceChar != '-' && nonSpaceChar != '_')
                 {
                     return null;
                 }
 
-                while (pos < endOfFirstLine)
+                while (pos < line.Length)
                 {
-                    char c = markdown[pos++];
+                    char c = line[pos++];
                     if (c == '*' || c == '-' || c == '_')
                     {
                         // All of the non-whitespace characters on the line must match.
@@ -74,10 +82,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     }
                 }
 
-                var actualEnd = endOfFirstLine;
-
                 // Hopefully there were at least 3 stars/dashes/underscores.
-                return hrCharCount >= 3 ? BlockParseResult.Create(new HorizontalRuleBlock(), startOfLine, actualEnd) : null;
+                return hrCharCount >= 3 ? BlockParseResult.Create(new HorizontalRuleBlock(), startLine, 1) : null;
             }
 
             /// <inheritdoc/>
