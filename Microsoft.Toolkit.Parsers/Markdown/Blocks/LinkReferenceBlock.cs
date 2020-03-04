@@ -97,7 +97,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // Extract the URL.
-                var urlLength = line.Slice(urlStart).IndexOfAny("\t ".AsSpan());
+                var urlLength = line.Slice(urlStart).IndexOfNexWhiteSpace();
+                if (urlLength == -1)
+                {
+                    urlLength = line.Slice(urlStart).Length;
+                }
 
                 var url = document.ResolveEscapeSequences(line.Slice(urlStart, urlLength), true, true);
 
