@@ -331,13 +331,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // The URL must have at least one character after the www.
-                if (start >= line.Length - 4)
+                if (start + 4 >= line.Length)
                 {
                     return null;
                 }
 
                 // Find the end of the URL.
-                int length = FindUrlLength(line.Slice(start + 4)) + start + 4;
+                int length = FindUrlLength(line.Slice(start + 4)) + 4;
 
                 var url = line.Slice(start, length).ToString();
                 return InlineParseResult.Create(new HyperlinkInline { Url = "http://" + url, Text = url, LinkType = HyperlinkType.PartialUrl }, new LineBlockPosition(tripPos.Line, start, markdown), length);
