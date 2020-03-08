@@ -27,6 +27,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public new class Parser : Parser<EmojiInline>
         {
+            /// <summary>
+            /// Gets or sets a value indicating whether gets a value indicating if the default emojis should be used.
+            /// </summary>
+            public bool UseDefaultEmojis { get; set; } = true;
+
+            private readonly Dictionary<string, int> customEmojiCodesDictionary = new Dictionary<string, int>();
+
+            /// <summary>
+            /// Adds an Emoji sequence.
+            /// </summary>
+            /// <param name="name">The sequence that should be machted. (without collon.)</param>
+            /// <param name="character">The number representing the unicode character.</param>
+            public void AddEmoji(string name, int character)
+            {
+                customEmojiCodesDictionary.Add(name, character);
+            }
+
             /// <inheritdoc/>
             protected override InlineParseResult<EmojiInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
@@ -59,7 +76,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 var emojiName = line.Slice(tripPos.Column + 1, innerLength).ToString();
 
-                if (_emojiCodesDictionary.TryGetValue(emojiName, out var emojiCode))
+                if (this.customEmojiCodesDictionary.TryGetValue(emojiName, out var emojiCode))
+                {
+                    var result = new EmojiInline { Text = char.ConvertFromUtf32(emojiCode), Type = MarkdownInlineType.Emoji };
+                    return InlineParseResult.Create(result, tripPos, innerLength + 2);
+                }
+
+                if (this.UseDefaultEmojis && _emojiCodesDictionary.TryGetValue(emojiName, out emojiCode))
                 {
                     var result = new EmojiInline { Text = char.ConvertFromUtf32(emojiCode), Type = MarkdownInlineType.Emoji };
                     return InlineParseResult.Create(result, tripPos, innerLength + 2);
