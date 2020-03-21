@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<LinkReferenceBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<LinkReferenceBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var line = markdown[startLine];
 
@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // We found something!
                 var result = new LinkReferenceBlock();
                 result.Id = id.ToString();
-                result.Url = url;
+                result.Url = url.ToString();
                 result.Tooltip = tooltip;
                 return BlockParseResult.Create(result, startLine, 1);
             }

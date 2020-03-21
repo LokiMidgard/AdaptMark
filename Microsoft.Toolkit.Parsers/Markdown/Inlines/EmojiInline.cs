@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
@@ -33,6 +34,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public bool UseDefaultEmojis { get; set; } = true;
 
             private readonly Dictionary<string, int> customEmojiCodesDictionary = new Dictionary<string, int>();
+            private readonly int maxEmojiLength;
+            private int maxCustomEmojiLength;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Parser"/> class.
+            /// </summary>
+            public Parser()
+            {
+                this.maxEmojiLength = _emojiCodesDictionary.Keys.Max(x => x.Length);
+            }
 
             /// <summary>
             /// Adds an Emoji sequence.
@@ -41,25 +52,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// <param name="character">The number representing the unicode character.</param>
             public void AddEmoji(string name, int character)
             {
-                customEmojiCodesDictionary.Add(name, character);
+                this.customEmojiCodesDictionary.Add(name, character);
+                this.maxCustomEmojiLength = Math.Max(name.Length, this.maxCustomEmojiLength);
             }
 
             /// <inheritdoc/>
-            protected override InlineParseResult<EmojiInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<EmojiInline> ParseInternal(in LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
-                if (!tripPos.IsIn(markdown))
-                {
-                    throw new ArgumentOutOfRangeException(nameof(tripPos));
-                }
-
                 var line = markdown[tripPos.Line];
 
                 // Check the start sequence.
                 var startSequence = line.Slice(tripPos.Column, 1);
-                if (!startSequence.StartsWith(":".AsSpan()))
-                {
-                    return null;
-                }
 
                 // Find the end of the span.
                 int innerLength = line.Slice(tripPos.Column + 1).IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
@@ -70,6 +73,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 // The span must contain at least one character.
                 if (innerLength == 0)
+                {
+                    return null;
+                }
+
+                // Can this be a emoji?
+                if (innerLength > this.maxCustomEmojiLength && (innerLength > this.maxEmojiLength || !this.UseDefaultEmojis))
                 {
                     return null;
                 }
@@ -92,7 +101,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => ":";
+            public override ReadOnlySpan<char> TripChar => ":".AsSpan();
         }
 
         /// <inheritdoc/>
