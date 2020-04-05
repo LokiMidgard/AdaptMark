@@ -19,21 +19,23 @@
 
 
   <PropertyGroup>
-    <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+ 
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- Optional: Include PDB in the built .nupkg -->
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-   </PropertyGroup>
+  
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat> </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.74" PrivateAssets="all" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.3" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
   
   <ItemGroup>
