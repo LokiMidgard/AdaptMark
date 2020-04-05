@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <SignAssembly Condition="'$(SignAssembly)' == ''" >true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AdaptMark.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
