@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace AdaptMark.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// A Block Element is an element that is a container for other structures.

@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using AdaptMark.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Markdown.Inlines;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace AdaptMark.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a heading.

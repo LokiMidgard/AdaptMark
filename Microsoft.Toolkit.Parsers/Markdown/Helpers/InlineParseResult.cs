@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using AdaptMark.Parsers.Markdown.Inlines;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
+namespace AdaptMark.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// Represents the result of parsing an inline element.

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Parsers
+namespace AdaptMark.Parsers
 {
     /// <summary>
     /// Parser interface.

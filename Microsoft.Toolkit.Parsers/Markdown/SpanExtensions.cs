@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Microsoft.Toolkit.Parsers.Markdown
+namespace AdaptMark.Parsers.Markdown
 {
     /// <summary>
     /// Extension methods that helps with parsing Spans.

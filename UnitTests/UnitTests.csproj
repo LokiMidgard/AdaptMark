@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\AdaptMark.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace AdaptMark.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// An internal class that is the base class for all inline elements.

@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Core;
+using AdaptMark.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace AdaptMark.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing emoji symbol.

@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using AdaptMark.Parsers.Markdown.Blocks;
+using AdaptMark.Parsers.Markdown.Inlines;
 
-namespace Microsoft.Toolkit.Parsers.Markdown
+namespace AdaptMark.Parsers.Markdown
 {
     /// <summary>
     /// Defines the Builder methods to create a MarkdownDocument.

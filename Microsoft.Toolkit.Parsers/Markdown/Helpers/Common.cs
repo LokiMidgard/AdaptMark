@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using AdaptMark.Parsers.Markdown.Inlines;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
+namespace AdaptMark.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// Helpers for Markdown.

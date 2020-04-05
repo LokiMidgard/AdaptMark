@@ -4,7 +4,7 @@
 
 using System.Text;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace AdaptMark.Parsers.Markdown.Blocks
 {
     internal class ListItemBuilder : MarkdownBlock
     {

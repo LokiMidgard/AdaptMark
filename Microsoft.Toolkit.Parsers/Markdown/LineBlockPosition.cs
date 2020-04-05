@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown
+namespace AdaptMark.Parsers.Markdown
 {
     /// <summary>
     /// Specifys the position in a <see cref="LineBlock"/>.

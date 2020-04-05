@@ -4,9 +4,9 @@
 
 using System;
 using System.Text;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace AdaptMark.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a block of text that is displayed in a fixed-width font.  Inline elements and

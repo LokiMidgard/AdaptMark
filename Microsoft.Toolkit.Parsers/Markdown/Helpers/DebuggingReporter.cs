@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
+namespace AdaptMark.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// Reports an error during debugging.

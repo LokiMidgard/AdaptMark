@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text;
-using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Core;
+using AdaptMark.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace AdaptMark.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a horizontal line.

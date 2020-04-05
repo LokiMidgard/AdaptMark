@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Toolkit.Parsers.Markdown
+namespace AdaptMark.Parsers.Markdown
 {
     /// <summary>
     /// Callback provides new start and length for the line.

@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using AdaptMark.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace AdaptMark.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing code, or other text that is to be displayed using a
