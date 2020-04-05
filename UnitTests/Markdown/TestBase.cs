@@ -9,8 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using Windows.UI.Text;
-using Windows.UI.Xaml;
 
 namespace UnitTests.Markdown
 {
@@ -71,24 +69,9 @@ namespace UnitTests.Markdown
                 Type baseType = type;
                 while (baseType != null)
                 {
-                    foreach (var propertyInfo in baseType.GetProperties(BindingFlags.Public | BindingFlags.Static))
-                    {
-                        if (propertyInfo.Name.EndsWith("Property") && propertyInfo.PropertyType == typeof(DependencyProperty))
-                        {
-                            var dp = (DependencyProperty)propertyInfo.GetValue(obj);
-                            defaultValues.Add(propertyInfo.Name.Substring(0, propertyInfo.Name.Length - "Property".Length), dp.GetMetadata(type).DefaultValue);
-                        }
-                    }
+                  
                     baseType = baseType.GetTypeInfo().BaseType;
                 }
-
-                // Override some defaults.
-                if (defaultValues.ContainsKey("FontSize"))
-                    defaultValues["FontSize"] = 15.0;
-                if (defaultValues.ContainsKey("TextAlignment"))
-                    defaultValues["TextAlignment"] = TextAlignment.Left;
-                if (defaultValues.ContainsKey("Margin"))
-                    defaultValues["Margin"] = new Thickness(0, 12, 0, 0);
 
                 // Cache it.
                 defaultValueCache.TryAdd(type, defaultValues);
@@ -122,21 +105,6 @@ namespace UnitTests.Markdown
                 else if (value is int || value is double || value is bool || value is byte || value is Enum)
                 {
                     result.AppendFormat("{0} {1}: {2}", first ? "" : ",", propertyInfo.Name, value.ToString());
-                    first = false;
-                }
-                else if (value is string || value is Thickness)
-                {
-                    if (propertyInfo.Name == "Text")
-                    {
-                        value = ReplaceLineBreaks(value.ToString());
-                    }
-
-                    result.AppendFormat("{0} {1}: '{2}'", first ? "" : ",", propertyInfo.Name, value.ToString());
-                    first = false;
-                }
-                else if (value is FontWeight)
-                {
-                    result.AppendFormat("{0} {1}: {2}", first ? "" : ",", propertyInfo.Name, ((FontWeight)value).Weight);
                     first = false;
                 }
                 else

@@ -2,32 +2,41 @@
   
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <Title>Windows Community Toolkit .NET Standard Parsers</Title>
+    <Title>AdaptMark</Title>
     <Description>
-      This .NET standard library contains various parsers
-
-      Markdown: Allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
-
-      RSS: Allows you to parse an RSS content String into an RSS Schema.
-
+      A Markdown parser that can adapt to your needs. You can easely add your own Parsing logic.
     </Description>
-    <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown RSS</PackageTags>
+    <PackageTags>Parsers Parsing Markdown</PackageTags>
     <LangVersion>8.0</LangVersion>
     
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
-  
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+
+  <PropertyGroup>
+    <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Optional: Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All"/>
+    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
+  </ItemGroup>
+
+
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
-
 </Project>
