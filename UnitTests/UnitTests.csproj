@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\AdaptMark.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Extensions;
 using AdaptMark.Parsers.Core;
 using AdaptMark.Parsers.Markdown.Helpers;
 
@@ -154,7 +153,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
                     tooltip = innerPart.Slice(tooltipStart + 1, innerPart.Length - tooltipStart - 2).ToString();
                 }
 
-                if (this.HandleEmails && url.IsEmail())
+                if (this.HandleEmails && IsEmail(url))
                 {
                     url = string.Format("mailto:{0}", url);
                 }
@@ -181,6 +180,21 @@ namespace AdaptMark.Parsers.Markdown.Inlines
 
             private static readonly HashSet<Type> IgnoredSubParsers = new HashSet<Type>() { typeof(MarkdownLinkInline.Parser), typeof(HyperlinkInline.AngleBracketLinkParser), typeof(HyperlinkInline.EmailAddressParser), typeof(HyperlinkInline.PartialLinkParser), typeof(HyperlinkInline.ReditLinkParser), typeof(HyperlinkInline.UrlParser) };
         }
+
+
+
+        /// <summary>
+        /// Determines whether a string is a valid email address.
+        /// </summary>
+        /// <param name="str">The string to test.</param>
+        /// <returns><c>true</c> for a valid email address; otherwise, <c>false</c>.</returns>
+        private static bool IsEmail(string str)
+        {
+            // General Email Regex (RFC 5322 Official Standard) from emailregex.com.
+            const string EmailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+            return System.Text.RegularExpressions.Regex.IsMatch(str, EmailRegex);
+        }
+
 
         /// <summary>
         /// Attempts to parse a markdown referebce link e.g. "[][reference]".
