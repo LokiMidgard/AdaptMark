@@ -28,5 +28,8 @@ jobs:
     - name: Pack
       run: dotnet pack --configuration Release --no-restore
       
+    - name: test Output
+      run: ls
+      
     - name: Publish
-      run: dotnet nuget push AdaptMark/bin/nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push AdaptMark/AdaptMark/bin/nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
