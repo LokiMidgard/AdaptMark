@@ -101,6 +101,17 @@ namespace UnitTests.Markdown
                 {
                     result.AppendFormat("{0} {1}: null", first ? "" : ",", propertyInfo.Name);
                     first = false;
+                
+                }
+                else if (value is string)
+                {
+                    if (propertyInfo.Name == "Text")
+                    {
+                        value = ReplaceLineBreaks(value.ToString());
+                    }
+
+                    result.AppendFormat("{0} {1}: '{2}'", first ? "" : ",", propertyInfo.Name, value.ToString());
+                    first = false;
                 }
                 else if (value is int || value is double || value is bool || value is byte || value is Enum)
                 {
