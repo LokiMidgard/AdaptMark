@@ -32,4 +32,4 @@ jobs:
       run: ls
       
     - name: Publish
-      run: dotnet nuget push AdaptMark/AdaptMark/bin/nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json
