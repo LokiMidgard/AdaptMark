@@ -29,4 +29,4 @@ jobs:
       run: dotnet pack --configuration Release --no-restore
       
     - name: Publish
-      run: dotnet nuget push bin/nupkg/*.nupkg --api-key {{NugetApiKey}}
+      run: dotnet nuget push bin/nupkg/*.nupkg
