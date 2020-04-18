@@ -85,29 +85,29 @@ namespace UnitTests.Markdown.Parse
         [TestMethod]
         [TestCategory("Parse - inline")]
         [DataRow("abcABC123@test.com", null, "mailto:abcABC123@test.com", "abcABC123@test.com", false, DisplayName = "abcABC123@test.com")]
-        [DataRow("a!b@test.com", "a!", "mailto:b@test.com", "b@test.com", false, DisplayName = "a!b@test.com")]
-        [DataRow("a#b@test.com", "a#", "mailto:b@test.com", "b@test.com", false, DisplayName = "a#b@test.com")]
-        [DataRow("a$b@test.com", "a$", "mailto:b@test.com", "b@test.com", false, DisplayName = "a$b@test.com")]
-        [DataRow("a%b@test.com", "a%", "mailto:b@test.com", "b@test.com", false, DisplayName = "a%b@test.com")]
-        [DataRow("a&b@test.com", "a&", "mailto:b@test.com", "b@test.com", false, DisplayName = "a&b@test.com")]
-        [DataRow("a*b@test.com", "a*", "mailto:b@test.com", "b@test.com", false, DisplayName = "a*b@test.com")]
+        [DataRow("a!b@test.com", null, "mailto:a!b@test.com", "a!b@test.com", false, DisplayName = "a!b@test.com")]
+        [DataRow("a#b@test.com", null, "mailto:a#b@test.com", "a#b@test.com", false, DisplayName = "a#b@test.com")]
+        [DataRow("a$b@test.com", null, "mailto:a$b@test.com", "a$b@test.com", false, DisplayName = "a$b@test.com")]
+        [DataRow("a%b@test.com", null, "mailto:a%b@test.com", "a%b@test.com", false, DisplayName = "a%b@test.com")]
+        [DataRow("a&b@test.com", null, "mailto:a&b@test.com", "a&b@test.com", false, DisplayName = "a&b@test.com")]
+        [DataRow("a*b@test.com", null, "mailto:a*b@test.com", "a*b@test.com", false, DisplayName = "a*b@test.com")]
         [DataRow("a+b@test.com", null, "mailto:a+b@test.com", "a+b@test.com", false, DisplayName = "a+b@test.com")]
         [DataRow("a-b@test.com", null, "mailto:a-b@test.com", "a-b@test.com", false, DisplayName = "a-b@test.com")]
-        [DataRow("a=b@test.com", "a=", "mailto:b@test.com", "b@test.com", false, DisplayName = "a=b@test.com")]
-        [DataRow("a/b@test.com", "a/", "mailto:b@test.com", "b@test.com", false, DisplayName = "a/b@test.com")]
-        [DataRow("a?b@test.com", "a?", "mailto:b@test.com", "b@test.com", false, DisplayName = "a?b@test.com")]
+        [DataRow("a=b@test.com", null, "mailto:a=b@test.com", "a=b@test.com", false, DisplayName = "a=b@test.com")]
+        [DataRow("a/b@test.com", null, "mailto:a/b@test.com", "a/b@test.com", false, DisplayName = "a/b@test.com")]
+        [DataRow("a?b@test.com", null, "mailto:a?b@test.com", "a?b@test.com", false, DisplayName = "a?b@test.com")]
         [DataRow("a^b@test.com", "a", "mailto:b@test.com", "b@test.com", true, DisplayName = "a^b@test.com")]
         [DataRow("a_b@test.com", null, "mailto:a_b@test.com", "a_b@test.com", false, DisplayName = "a_b@test.com")]
-        [DataRow("a{b@test.com", "a{", "mailto:b@test.com", "b@test.com", false, DisplayName = "a{b@test.com")]
-        [DataRow("a}b@test.com", "a}", "mailto:b@test.com", "b@test.com", false, DisplayName = "a}b@test.com")]
-        [DataRow("a|b@test.com", "a|", "mailto:b@test.com", "b@test.com", false, DisplayName = "a|b@test.com")]
-        [DataRow("a`b@test.com", "a`", "mailto:b@test.com", "b@test.com", false, DisplayName = "a`b@test.com")]
-        [DataRow("a'b@test.com", "a'", "mailto:b@test.com", "b@test.com", false, DisplayName = "a'b@test.com")]
-        [DataRow("a~b@test.com", "a~", "mailto:b@test.com", "b@test.com", false, DisplayName = "a~b@test.com")]
+        [DataRow("a{b@test.com", null, "mailto:a{b@test.com", "a{b@test.com", false, DisplayName = "a{b@test.com")]
+        [DataRow("a}b@test.com", null, "mailto:a}b@test.com", "a}b@test.com", false, DisplayName = "a}b@test.com")]
+        [DataRow("a|b@test.com", null, "mailto:a|b@test.com", "a|b@test.com", false, DisplayName = "a|b@test.com")]
+        [DataRow("a`b@test.com", null, "mailto:a`b@test.com", "a`b@test.com", false, DisplayName = "a`b@test.com")]
+        [DataRow("a'b@test.com", null, "mailto:a'b@test.com", "a'b@test.com", false, DisplayName = "a'b@test.com")]
+        [DataRow("a~b@test.com", null, "mailto:a~b@test.com", "a~b@test.com", false, DisplayName = "a~b@test.com")]
         [DataRow("a.b@test.com", null, "mailto:a.b@test.com", "a.b@test.com", false, DisplayName = "a.b@test.com")]
-        [DataRow("a..b@test.com", null, "mailto:a..b@test.com", "a..b@test.com", false, DisplayName = "a..b@test.com")]
-        [DataRow("ab.@test.com", null, "mailto:ab.@test.com", "ab.@test.com", false, DisplayName = "ab.@test.com")]
-        [DataRow(".ab@test.com", null, "mailto:.ab@test.com", ".ab@test.com", false, DisplayName = ".ab@test.com")]
+        [DataRow("a..b@test.com", "a..", "mailto:b@test.com", "b@test.com", false, DisplayName = "a..b@test.com")]
+        [DataRow("ab.@test.com", "ab.@test.com", null, null, false, DisplayName = "ab.@test.com")]
+        [DataRow(".ab@test.com", ".", "mailto:ab@test.com", "ab@test.com", false, DisplayName = ".ab@test.com")]
         public void Hyperlink_MailtoLocalPart(string input, string textRunText, string hyperLinkUrl, string hyperLinkText, bool linkInSuperScript)
         {
             ParagraphBlock expected;
@@ -115,6 +115,10 @@ namespace UnitTests.Markdown.Parse
             if (textRunText is null)
             {
                 expected = new ParagraphBlock().AddChildren(new HyperlinkInline { Url = hyperLinkUrl, Text = hyperLinkText, LinkType = HyperlinkType.Email });
+            }
+            else if (hyperLinkUrl is null)
+            {
+                expected = new ParagraphBlock().AddChildren(new TextRunInline { Text = textRunText });
             }
             else
             {

@@ -352,6 +352,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// </summary>
         public class EmailAddressParser : Parser<HyperlinkInline>
         {
+            private readonly HashSet<char> allowedchars = new HashSet<char> { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
             /// <inheritdoc/>
             protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
@@ -362,11 +363,11 @@ namespace AdaptMark.Parsers.Markdown.Inlines
                 // reddit (for example: '$' and '!').
 
                 // Special characters as per https://en.wikipedia.org/wiki/Email_address#Local-part allowed
-                char[] allowedchars = new char[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
 
                 var line = markdown[tripPos.Line];
 
                 int start = tripPos.Column;
+                bool lastCharWasPeriod = false;
                 while (start > 0)
                 {
                     char c = line[start - 1];
@@ -375,11 +376,38 @@ namespace AdaptMark.Parsers.Markdown.Inlines
                         (c < '0' || c > '9') &&
                         !allowedchars.Contains(c))
                     {
-                        break;
+                        // special case .
+
+                        if (c == '.')
+                        {
+                            // . may not be the last charager
+                            if (start == tripPos.Column)
+                                break;
+                            // not two consecutive periods
+                            if (lastCharWasPeriod)
+                            {
+                                break;
+                            }
+
+                            lastCharWasPeriod = true;
+                        }
+                        else
+                            break;
+                    }
+                    else
+                    {
+                        lastCharWasPeriod = false;
                     }
 
                     start--;
                 }
+
+                if (lastCharWasPeriod)
+                {
+                    // undo the last advance
+                    start++;
+                }
+
 
                 // There must be at least one character before the '@'.
                 if (start == tripPos.Column)
