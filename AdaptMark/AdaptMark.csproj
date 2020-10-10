@@ -9,8 +9,8 @@
     <PackageTags>Parsers Parsing Markdown</PackageTags>
     <LangVersion>8.0</LangVersion>
     
-    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
-    <DebugType>Full</DebugType>
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 --><!--
+    <DebugType>Full</DebugType>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
