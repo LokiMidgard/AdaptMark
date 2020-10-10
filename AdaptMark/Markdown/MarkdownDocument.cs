@@ -460,10 +460,10 @@ namespace AdaptMark.Parsers.Markdown
                     {
                         blocks.Add(block);
                     }
+                    // We need to mark all text as parsed.
+                    markdown = markdown.SliceLines(lineCount);
                 }
 
-                // We need to mark all text as parsed.
-                markdown = markdown.SliceLines(lineCount);
                 currentLineIndex = 0;
             }
 
@@ -491,10 +491,16 @@ namespace AdaptMark.Parsers.Markdown
                         parsedBlock = parser.Parse(markdown, currentLineIndex, lineStartsNewParagraph, this);
                         if (parsedBlock != null)
                         {
+                            if (parsedBlock.LineCount + parsedBlock.Start > markdown.LineCount)
+                                throw new InvalidOperationException($"The Parser: {parser} parsed {parsedBlock.LineCount} but only {markdown.LineCount} where available, paragraph block lines: {parsedBlock.Start}");
+
                             // add the last paragaraph
                             AddParagraph(ref markdown, parsedBlock.Start);
 
                             blocks.Add(parsedBlock.ParsedElement);
+
+                            if (parsedBlock.LineCount > markdown.LineCount)
+                                throw new InvalidOperationException($"The Parser: {parser} parsed {parsedBlock.LineCount} but only {markdown.LineCount} where available, previously removed whitespace {parsedBlock.Start}");
 
                             // remove the parsed lines
                             markdown = markdown.SliceLines(parsedBlock.LineCount);

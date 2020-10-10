@@ -24,7 +24,7 @@ namespace AdaptMark.Parsers.Markdown.Helpers
         public MarkdownBlock ParsedElement { get; }
 
         /// <summary>
-        /// Gets the position of the first character in the parsed element.
+        /// Gets the index of the first line in parsed element.
         /// </summary>
         public int Start { get; }
 
@@ -38,7 +38,7 @@ namespace AdaptMark.Parsers.Markdown.Helpers
         /// </summary>
         /// <typeparam name="T">The MarkdownBlock type.</typeparam>
         /// <param name="markdownBlock">The parsed Block.</param>
-        /// <param name="start">The start of the Block.</param>
+        /// <param name="start">The start of the Block (Lines).</param>
         /// <param name="lineCount">The number lines.</param>
         /// <returns>The BlockParseResult.</returns>
         public static BlockParseResult<T> Create<T>(T markdownBlock, int start, int lineCount)
