@@ -27,3 +27,9 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Pack
       run: dotnet pack --configuration Release --no-restore
+      
+    - name: test Output
+      run: ls
+      
+    - name: Publish
+      run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NugetApiKey }}
