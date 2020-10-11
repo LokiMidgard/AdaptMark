@@ -35,7 +35,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         {
         }
 
-        public static string ToString(IList<MarkdownBlock>? blocks)
+        public static string ToString(IList<MarkdownBlock> blocks)
         {
             if (blocks == null)
                 return string.Empty;
