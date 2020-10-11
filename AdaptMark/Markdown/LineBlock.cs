@@ -787,6 +787,7 @@ namespace AdaptMark.Parsers.Markdown
                 }
 
                 var nextLineStart = int.MaxValue;
+                var thisLineEnd = this.lines[line].start + this.lines[line].length;
                 var numberOfLineBrackeCharacters = 0;
                 if (line + 1 < this.lines.Length)
                 {
@@ -795,7 +796,7 @@ namespace AdaptMark.Parsers.Markdown
 
                 for (int i = this.lines[0].start + fromPosition.FromStart + this.start; i < to; i++)
                 {
-                    if (text[i] == '\n' || text[i] == '\r')
+                    if (i > thisLineEnd)
                     {
                         numberOfLineBrackeCharacters++;
                     }
@@ -804,6 +805,7 @@ namespace AdaptMark.Parsers.Markdown
                     {
                         currentLineStart = nextLineStart;
                         line++;
+                        thisLineEnd = this.lines[line].start + this.lines[line].length;
                         if (line + 1 < this.lines.Length)
                         {
                             nextLineStart = this.lines[line + 1].start;
@@ -844,6 +846,7 @@ namespace AdaptMark.Parsers.Markdown
                 }
 
                 var nextLineStart = int.MaxValue;
+                var thisLineEnd = this.lines[line].start + this.lines[line].length;
                 var numberOfLineBrackeCharacters = 0;
                 if (line + 1 < this.lines.Length)
                 {
@@ -852,8 +855,11 @@ namespace AdaptMark.Parsers.Markdown
 
                 for (int i = this.lines[0].start + fromPosition.FromStart + this.start; i < to; i++)
                 {
+
+
+
                     var currentChar = this.text[i];
-                    if (currentChar == '\n' || currentChar == '\r')
+                    if (i > thisLineEnd)
                     {
                         numberOfLineBrackeCharacters++;
                     }
@@ -862,6 +868,7 @@ namespace AdaptMark.Parsers.Markdown
                     {
                         currentLineStart = nextLineStart;
                         line++;
+                        thisLineEnd = this.lines[line].start + this.lines[line].length;
                         if (line + 1 < this.lines.Length)
                         {
                             nextLineStart = this.lines[line + 1].start;
