@@ -49,7 +49,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         {
             if (Text == null)
             {
-                return base.ToString();
+                return string.Empty;
             }
 
             return Text;

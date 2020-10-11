@@ -130,7 +130,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         {
             if (Inlines == null)
             {
-                return base.ToString();
+                return string.Empty;
             }
 
             return "^(" + string.Join(string.Empty, Inlines) + ")";

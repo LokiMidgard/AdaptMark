@@ -36,7 +36,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         {
             if (Children == null)
             {
-                return base.ToString();
+                return string.Empty;
             }
             else
             {
