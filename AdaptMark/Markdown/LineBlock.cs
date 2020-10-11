@@ -130,7 +130,7 @@ namespace AdaptMark.Parsers.Markdown
         public override string ToString()
         {
             var bufferSize = this.TextLength + ((this.LineCount - 1) * (Environment.NewLine.Length - 1));
-            char[] arrayBuffer;
+            char[]? arrayBuffer;
             if (bufferSize <= SpanExtensions.MAX_STACK_BUFFER_SIZE)
             {
                 arrayBuffer = null;

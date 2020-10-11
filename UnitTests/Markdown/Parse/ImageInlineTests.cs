@@ -25,7 +25,6 @@ namespace UnitTests.Markdown.Parse
                         Tooltip = "SVG logo",
                         ImageWidth = 1,
                         ImageHeight = 0,
-                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
                         ReferenceId = string.Empty
                     }));
         }
@@ -44,7 +43,6 @@ namespace UnitTests.Markdown.Parse
                         Tooltip = "SVG logo",
                         ImageWidth = 0,
                         ImageHeight = 1,
-                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
                         ReferenceId = string.Empty
                     }));
         }
@@ -63,7 +61,6 @@ namespace UnitTests.Markdown.Parse
                         Text = "![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)",
                         ImageWidth = 128,
                         ImageHeight = 64,
-                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
                         ReferenceId = string.Empty
                     }));
         }
@@ -82,7 +79,6 @@ namespace UnitTests.Markdown.Parse
                         Text = "![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg%20=32)",
                         ImageWidth = 0,
                         ImageHeight = 0,
-                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg%20=32",
                         ReferenceId = string.Empty
                     }));
         }

@@ -20,6 +20,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public BoldItalicTextInline()
             : base(MarkdownInlineType.Bold)
         {
+            this.Inlines = Array.Empty<MarkdownInline>();
         }
 
         /// <summary>

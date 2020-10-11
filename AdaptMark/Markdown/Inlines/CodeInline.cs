@@ -20,6 +20,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public CodeInline()
             : base(MarkdownInlineType.Code)
         {
+            this.Text = string.Empty;
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public new class Parser : Parser<CodeInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CodeInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<CodeInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {

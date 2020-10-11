@@ -25,6 +25,12 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         public YamlHeaderBlock()
             : base(MarkdownBlockType.YamlHeader)
         {
+            this.Children = new Dictionary<string, string>();
+        }
+
+        public YamlHeaderBlock(Dictionary<string, string> children) : base(MarkdownBlockType.YamlHeader)
+        {
+            this.Children = children;
         }
 
         /// <summary>
@@ -64,7 +70,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<YamlHeaderBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<YamlHeaderBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // As yaml header, must be start a line with "---"
                 // and end with a line "---"
@@ -123,10 +129,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
                     }
                 }
 
-                var result = new YamlHeaderBlock
-                {
-                    Children = resultDictionary,
-                };
+                var result = new YamlHeaderBlock(resultDictionary);
 
                 int numberOfLines;
                 if (lastLine == -1)

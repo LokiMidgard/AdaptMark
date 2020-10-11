@@ -19,6 +19,6 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets a tooltip to display on hover.  Can be <c>null</c>.
         /// </summary>
-        string Tooltip { get; }
+        string? Tooltip { get; }
     }
 }

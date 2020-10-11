@@ -310,7 +310,7 @@ namespace AdaptMark.Parsers.Markdown
         // A list of characters that can be escaped.
         private readonly char[] _escapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
 
-        private Dictionary<string, LinkReferenceBlock> _references;
+        private Dictionary<string, LinkReferenceBlock>? _references;
         private LineBlock.IndexOfAnyInput? tripLookupForAll;
         private bool? canTripUseForAll;
 
@@ -362,7 +362,7 @@ namespace AdaptMark.Parsers.Markdown
         {
         }
 
-        internal MarkdownDocument(IEnumerable<MarkdownBlock.Parser> blockParsers, Dictionary<Type, HashSet<Type>> blockEdges, IEnumerable<MarkdownInline.Parser> inlineParsers, Dictionary<Type, HashSet<Type>> inlineEdges)
+        internal MarkdownDocument(IEnumerable<MarkdownBlock.Parser> blockParsers, Dictionary<Type, HashSet<Type>>? blockEdges, IEnumerable<MarkdownInline.Parser> inlineParsers, Dictionary<Type, HashSet<Type>>? inlineEdges)
             : base(MarkdownBlockType.Root)
         {
             this.parsersBlock = blockParsers.ToArray();
@@ -370,6 +370,8 @@ namespace AdaptMark.Parsers.Markdown
 
             this.parsersInline = inlineParsers.ToArray();
             this.parserDependencysInline = inlineEdges ?? new Dictionary<Type, HashSet<Type>>();
+
+            Blocks = Array.Empty<MarkdownBlock>();
         }
 
         /// <summary>
@@ -484,7 +486,7 @@ namespace AdaptMark.Parsers.Markdown
                 }
                 else
                 {
-                    BlockParseResult parsedBlock = null;
+                    BlockParseResult? parsedBlock = null;
 
                     foreach (var parser in this.parsersBlock)
                     {
@@ -533,7 +535,7 @@ namespace AdaptMark.Parsers.Markdown
         /// <param name="trimEnd">Trims the end.</param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns> A list of parsed inlines. </returns>
-        public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd, HashSet<Type> ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), trimStart, trimEnd, ignoredParsers);
+        public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd, HashSet<Type>? ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), trimStart, trimEnd, ignoredParsers);
 
         /// <summary>
         /// This function can be called by any element parsing. Given a start and stopping point this will
@@ -544,7 +546,7 @@ namespace AdaptMark.Parsers.Markdown
         /// <param name="trimEnd">Trims the end.</param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns> A list of parsed inlines. </returns>
-        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, bool trimStart, bool trimEnd, HashSet<Type> ignoredParsers = null)
+        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, bool trimStart, bool trimEnd, HashSet<Type>? ignoredParsers = null)
         {
             ignoredParsers ??= EmptyTypes;
             LineBlockPosition currentParsePosition = default;
@@ -616,7 +618,7 @@ namespace AdaptMark.Parsers.Markdown
         /// <param name="markdown"> The markdown text to parse. </param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns>Returns the next element.</returns>
-        private InlineParseResult FindNextInlineElement(LineBlock markdown, HashSet<Type> ignoredParsers)
+        private InlineParseResult? FindNextInlineElement(LineBlock markdown, HashSet<Type> ignoredParsers)
         {
             ReadOnlySpan<MarkdownInline.Parser> parsers = this.parsersInline;
             bool canUseTripChar;
@@ -689,7 +691,7 @@ namespace AdaptMark.Parsers.Markdown
             return foundInline;
         }
 
-        private InlineParseResult FindNextInlineSlow(in LineBlock markdown, HashSet<Type> ignoredParsers, in ReadOnlySpan<MarkdownInline.Parser> parsers)
+        private InlineParseResult? FindNextInlineSlow(in LineBlock markdown, HashSet<Type> ignoredParsers, in ReadOnlySpan<MarkdownInline.Parser> parsers)
         {
             // Search for the next inline sequence.
             for (int lineIndex = 0; lineIndex < markdown.LineCount; lineIndex++)
@@ -725,7 +727,7 @@ namespace AdaptMark.Parsers.Markdown
             return null;
         }
 
-        private InlineParseResult FindNextInlineWithTripChar(in LineBlock markdown, HashSet<Type> ignoredParsers, ReadOnlySpan<MarkdownInline.Parser> parsers)
+        private InlineParseResult? FindNextInlineWithTripChar(in LineBlock markdown, HashSet<Type> ignoredParsers, ReadOnlySpan<MarkdownInline.Parser> parsers)
         {
             LineBlock.IndexOfAnyInput tripCharacters;
             if (ignoredParsers.Count > 0)
@@ -815,7 +817,7 @@ namespace AdaptMark.Parsers.Markdown
                     }
 
                     // If we are here we have a possible match. Call into the inline class to verify.
-                    InlineParseResult parseResult = parser.Parse(markdown, pos, this, ignoredParsers);
+                    var parseResult = parser.Parse(markdown, pos, this, ignoredParsers);
                     if (parseResult != null)
                     {
                         return parseResult;
@@ -835,7 +837,7 @@ namespace AdaptMark.Parsers.Markdown
         /// </summary>
         /// <param name="id"> The ID of the reference (case insensitive). </param>
         /// <returns> The reference details, or <c>null</c> if the reference wasn't found. </returns>
-        public LinkReferenceBlock LookUpReference(string id)
+        public LinkReferenceBlock? LookUpReference(string id)
         {
             if (id == null)
             {
@@ -878,7 +880,7 @@ namespace AdaptMark.Parsers.Markdown
         public ReadOnlySpan<char> ResolveEscapeSequences(LineBlock markdown, bool trimStart, bool trimEnd)
         {
             var bufferSize = markdown.TextLength + ((markdown.LineCount - 1) * System.Environment.NewLine.Length);
-            char[] arrayBuffer;
+            char[]? arrayBuffer;
             if (bufferSize <= SpanExtensions.MAX_STACK_BUFFER_SIZE)
             {
                 arrayBuffer = null;
@@ -1135,7 +1137,7 @@ namespace AdaptMark.Parsers.Markdown
         /// <param name="edges">A dictionary that maps a Parser to all of its incomming (must run before this) Parsers.</param>
         /// <typeparam name="T">The type to sort.</typeparam>
         /// <returns>The ordered list.</returns>
-        private static IEnumerable<T> TopologicalSort<T>(IEnumerable<T> nodes, Dictionary<Type, HashSet<Type>> edges)
+        private static IEnumerable<T> TopologicalSort<T>(IEnumerable<T> nodes, Dictionary<Type, HashSet<Type>> edges) where T : notnull
         {
             // we want to order all elements to get a deterministic result
             var orderedSource = nodes.OrderBy(x => x.GetType().FullName).ToArray();
@@ -1252,7 +1254,7 @@ namespace AdaptMark.Parsers.Markdown
             }
 
             /// <inheritdoc/>
-            public DocumentBuilderBlockConfigurator<TParser> AddBlockParser<TParser>(Action<TParser> configurationCallback = null)
+            public DocumentBuilderBlockConfigurator<TParser> AddBlockParser<TParser>(Action<TParser>? configurationCallback = null)
                 where TParser : MarkdownBlock.Parser, new()
             {
                 var data = new TParser();
@@ -1273,7 +1275,7 @@ namespace AdaptMark.Parsers.Markdown
             }
 
             /// <inheritdoc/>
-            public DocumentBuilderInlineConfigurator<TParser> AddInlineParser<TParser>(Action<TParser> configurationCallback = null)
+            public DocumentBuilderInlineConfigurator<TParser> AddInlineParser<TParser>(Action<TParser>? configurationCallback = null)
                 where TParser : MarkdownInline.Parser, new()
             {
                 var data = new TParser();
@@ -1374,11 +1376,11 @@ namespace AdaptMark.Parsers.Markdown
                 }
 
                 /// <inheritdoc/>
-                public DocumentBuilderBlockConfigurator<TParser1> AddBlockParser<TParser1>(Action<TParser1> configurationCallback = null)
+                public DocumentBuilderBlockConfigurator<TParser1> AddBlockParser<TParser1>(Action<TParser1>? configurationCallback = null)
                     where TParser1 : MarkdownBlock.Parser, new() => this.parent.AddBlockParser(configurationCallback);
 
                 /// <inheritdoc/>
-                public DocumentBuilderInlineConfigurator<TParser1> AddInlineParser<TParser1>(Action<TParser1> configurationCallback = null)
+                public DocumentBuilderInlineConfigurator<TParser1> AddInlineParser<TParser1>(Action<TParser1>? configurationCallback = null)
                     where TParser1 : MarkdownInline.Parser, new() => this.parent.AddInlineParser(configurationCallback);
 
                 /// <summary>
@@ -1433,11 +1435,11 @@ namespace AdaptMark.Parsers.Markdown
                 }
 
                 /// <inheritdoc/>
-                public DocumentBuilderBlockConfigurator<TParser1> AddBlockParser<TParser1>(Action<TParser1> configurationCallback = null)
+                public DocumentBuilderBlockConfigurator<TParser1> AddBlockParser<TParser1>(Action<TParser1>? configurationCallback = null)
                     where TParser1 : MarkdownBlock.Parser, new() => this.parent.AddBlockParser(configurationCallback);
 
                 /// <inheritdoc/>
-                public DocumentBuilderInlineConfigurator<TParser1> AddInlineParser<TParser1>(Action<TParser1> configurationCallback = null)
+                public DocumentBuilderInlineConfigurator<TParser1> AddInlineParser<TParser1>(Action<TParser1>? configurationCallback = null)
                     where TParser1 : MarkdownInline.Parser, new() => this.parent.AddInlineParser(configurationCallback);
 
                 /// <summary>

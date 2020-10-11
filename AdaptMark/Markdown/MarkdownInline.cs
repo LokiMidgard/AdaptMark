@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 using AdaptMark.Parsers.Markdown.Helpers;
 
 namespace AdaptMark.Parsers.Markdown.Inlines
@@ -90,8 +91,10 @@ namespace AdaptMark.Parsers.Markdown.Inlines
 
         protected abstract string StringRepresentation();
 
-        public static string ToString(IEnumerable<MarkdownInline> inlines)
+        public static string ToString(IEnumerable<MarkdownInline>? inlines)
         {
+            if (inlines is null)
+                return string.Empty;
             return string.Join(string.Empty, inlines);
         }
 
@@ -100,8 +103,8 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// </summary>
         public abstract class Parser
         {
-            private IEnumerable<Type> defaultBeforeParsers;
-            private IEnumerable<Type> defaultAfterParsers;
+            private IEnumerable<Type>? defaultBeforeParsers;
+            private IEnumerable<Type>? defaultAfterParsers;
 
             internal Parser()
             {
@@ -124,12 +127,12 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             /// <summary>
             /// Gets the Default ordering of this Parser (ever parser that comes after this one).
             /// </summary>
-            public IEnumerable<Type> DefaultBeforeParsers { get => defaultBeforeParsers ?? (defaultBeforeParsers = InitBefore()); }
+            public IEnumerable<Type> DefaultBeforeParsers { get => defaultBeforeParsers ??= InitBefore(); }
 
             /// <summary>
             /// Gets the Default ordering of this Parser (ever parser that comes before this one).
             /// </summary>
-            public IEnumerable<Type> DefaultAfterParsers { get => defaultAfterParsers ?? (defaultAfterParsers = InitAfter()); }
+            public IEnumerable<Type> DefaultAfterParsers { get => defaultAfterParsers ??= InitAfter(); }
 
             /// <summary>
             /// Override this Method to order this Parser relative to others.
@@ -148,7 +151,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
             /// <remarks>May only be called if TripChar is empty or markdown[tripPos] is contained in TripChar.</remarks>
-            public abstract InlineParseResult Parse(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
+            public abstract InlineParseResult? Parse(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
 
             /// <summary>
             /// Gets the chars that if found means we might have a match. Empty if Tripchars are not supported.
@@ -171,10 +174,10 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             /// <param name="document">The current parsing document.</param>
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
-            protected abstract InlineParseResult<TInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
+            protected abstract InlineParseResult<TInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers);
 
             /// <inheritdoc/>
-            public sealed override InlineParseResult Parse(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers) => this.ParseInternal(markdown, tripPos, document, ignoredParsers);
+            public sealed override InlineParseResult? Parse(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers) => this.ParseInternal(markdown, tripPos, document, ignoredParsers);
         }
     }
 }

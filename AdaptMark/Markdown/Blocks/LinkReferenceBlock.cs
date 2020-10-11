@@ -27,17 +27,17 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the reference ID.
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the link URL.
         /// </summary>
-        public string Url { get; set; }
+        public string Url { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets a tooltip to display on hover.
         /// </summary>
-        public string Tooltip { get; set; }
+        public string? Tooltip { get; set; }
 
         protected override string StringRepresentation()
         {
@@ -57,7 +57,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<LinkReferenceBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<LinkReferenceBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var line = markdown[startLine];
 
@@ -107,7 +107,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
                 // Skip whitespace.
                 var pos = line.Slice(urlStart + urlLength).IndexOfNonWhiteSpace() + urlStart + urlLength;
 
-                string tooltip = null;
+                string? tooltip = null;
                 if (pos != -1)
                 {
                     // Extract the tooltip.

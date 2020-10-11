@@ -178,7 +178,7 @@ namespace AdaptMark.Parsers.Markdown.Render
         protected string CollapseWhitespace(IRenderContext context, string text)
         {
             bool dontOutputWhitespace = context.TrimLeadingWhitespace;
-            StringBuilder result = null;
+            StringBuilder? result = null;
             for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];

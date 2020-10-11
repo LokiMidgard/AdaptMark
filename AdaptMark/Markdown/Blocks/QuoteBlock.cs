@@ -27,7 +27,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the contents of the block.
         /// </summary>
-        public IList<MarkdownBlock> Blocks { get; set; }
+        public IList<MarkdownBlock> Blocks { get; set; } = Array.Empty<MarkdownBlock>();
 
         protected override string StringRepresentation()
         {
@@ -60,7 +60,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<QuoteBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<QuoteBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (markdown.LineCount == 0)
                 {

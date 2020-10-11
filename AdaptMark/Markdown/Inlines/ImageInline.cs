@@ -25,17 +25,12 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the image URL.
         /// </summary>
-        public string Url { get; set; }
-
-        /// <summary>
-        /// Gets or sets the image Render URL.
-        /// </summary>
-        public string RenderUrl { get; set; }
+        public string Url { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets a text to display on hover.
         /// </summary>
-        public string Tooltip { get; set; }
+        public string Tooltip { get; set; } = string.Empty;
 
         /// <inheritdoc/>
         public string Text { get; set; } = string.Empty;
@@ -43,7 +38,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the ID of a reference, if this is a reference-style link.
         /// </summary>
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
 
         /// <summary>
         /// Gets image width
@@ -68,7 +63,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "!".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<ImageInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<ImageInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -166,7 +161,6 @@ namespace AdaptMark.Parsers.Markdown.Inlines
                 var result = new ImageInline
                 {
                     Tooltip = tooltip,
-                    RenderUrl = url,
                     ReferenceId = reference,
                     Url = url,
                     Text = completeInline.ToString(),
@@ -209,7 +203,6 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             }
 
             // Everything is cool when you're part of a team.
-            RenderUrl = url;
             ReferenceId = null;
         }
 

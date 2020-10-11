@@ -28,14 +28,14 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the table rows.
         /// </summary>
-        public IList<TableRow> Rows { get; set; }
+        public IList<TableRow> Rows { get; set; } = Array.Empty<TableRow>();
 
         /// <summary>
         /// Gets or sets describes the columns in the table.  Rows can have more or less cells than the number
         /// of columns.  Rows with fewer cells should be padded with empty cells.  For rows with
         /// more cells, the extra cells should be hidden.
         /// </summary>
-        public IList<TableColumnDefinition> ColumnDefinitions { get; set; }
+        public IList<TableColumnDefinition> ColumnDefinitions { get; set; } = Array.Empty<TableColumnDefinition>();
 
         protected override string StringRepresentation()
         {
@@ -88,7 +88,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             /// Parses the contents of the row, ignoring whitespace at the beginning and end of each cell.
             /// </summary>
             /// <returns> The position of the start of the next line. </returns>
-            internal static List<TableColumnDefinition> ParseContents(ReadOnlySpan<char> line, int expectedNumberOfCoulumns)
+            internal static List<TableColumnDefinition>? ParseContents(ReadOnlySpan<char> line, int expectedNumberOfCoulumns)
             {
                 var list = new List<TableColumnDefinition>(expectedNumberOfCoulumns);
 
@@ -170,13 +170,13 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             /// <summary>
             /// Gets or sets the table cells.
             /// </summary>
-            public IList<TableCell> Cells { get; set; }
+            public IList<TableCell> Cells { get; set; } = Array.Empty<TableCell>();
 
             /// <summary>
             /// Parses the contents of the row, ignoring whitespace at the beginning and end of each cell.
             /// </summary>
             /// <returns> The position of the start of the next line. </returns>
-            internal static List<TableCell> ParseContents(ReadOnlySpan<char> line, MarkdownDocument document, int? expectedNumberOfCoulumns)
+            internal static List<TableCell>? ParseContents(ReadOnlySpan<char> line, MarkdownDocument document, int? expectedNumberOfCoulumns)
             {
                 var list = expectedNumberOfCoulumns.HasValue
                     ? new List<TableCell>(expectedNumberOfCoulumns.Value)
@@ -250,12 +250,14 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             /// <returns>the postiion parsed to.</returns>
             internal bool Parse(ReadOnlySpan<char> markdown, MarkdownDocument document, int? expectedNumberOfColumns)
             {
-                Cells = ParseContents(
-                    markdown,
-                    document,
-                    expectedNumberOfColumns);
+                var parsedCells = ParseContents(
+                                    markdown,
+                                    document,
+                                    expectedNumberOfColumns);
+                if (parsedCells != null)
+                    this.Cells = parsedCells;
 
-                return Cells != null;
+                return parsedCells != null;
             }
         }
 
@@ -267,7 +269,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             /// <summary>
             /// Gets or sets the cell contents.
             /// </summary>
-            public IList<MarkdownInline> Inlines { get; set; }
+            public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
         }
 
         /// <summary>
@@ -276,7 +278,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         public new class Parser : Parser<TableBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<TableBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<TableBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A table is a line of text, with at least one vertical bar (|), followed by a line of
                 // of text that consists of alternating dashes (-) and vertical bars (|) and optionally

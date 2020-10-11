@@ -49,8 +49,8 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the contents of the block.
         /// </summary>
-        public IList<MarkdownInline> Inlines { get; set; }
-
+        public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
+        
 
         protected override string StringRepresentation()
         {
@@ -68,7 +68,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         public class HashParser : Parser<HeaderBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<HeaderBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var line = markdown[startLine];
                 var firstNonSpace = line.IndexOfNonWhiteSpace();
@@ -136,7 +136,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<HeaderBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // Check the second line is valid.
                 if (startLine <= 0)

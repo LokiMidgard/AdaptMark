@@ -25,12 +25,12 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the Name of this Link Reference.
         /// </summary>
-        public string Link { get; set; }
+        public string? Link { get; set; }
 
         /// <summary>
         /// Gets or sets the raw Link Reference.
         /// </summary>
-        public string Raw { get; set; }
+        public string Raw { get; set; } = string.Empty;
 
         /// <summary>
         /// Attempts to parse a comment span.
@@ -41,7 +41,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "<".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<LinkAnchorInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<LinkAnchorInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown.SliceText(tripPos)[0];
 
@@ -75,7 +75,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
                 var length = trueEnd;
                 var contents = line.Slice(0, length).ToString();
 
-                string link = null;
+                string? link = null;
 
                 try
                 {

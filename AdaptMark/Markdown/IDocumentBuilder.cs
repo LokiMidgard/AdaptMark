@@ -19,7 +19,7 @@ namespace AdaptMark.Parsers.Markdown
         /// <typeparam name="TParser">The Parser of a Block.</typeparam>
         /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
         /// <returns>This instance.</returns>
-        MarkdownDocument.DocumentBuilder.DocumentBuilderBlockConfigurator<TParser> AddBlockParser<TParser>(Action<TParser> configurationCallback = null)
+        MarkdownDocument.DocumentBuilder.DocumentBuilderBlockConfigurator<TParser> AddBlockParser<TParser>(Action<TParser>? configurationCallback = null)
             where TParser : MarkdownBlock.Parser, new();
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace AdaptMark.Parsers.Markdown
         /// <typeparam name="TParser">The Parser of an Inline.</typeparam>
         /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
         /// <returns>This instance.</returns>
-        MarkdownDocument.DocumentBuilder.DocumentBuilderInlineConfigurator<TParser> AddInlineParser<TParser>(Action<TParser> configurationCallback = null)
+        MarkdownDocument.DocumentBuilder.DocumentBuilderInlineConfigurator<TParser> AddInlineParser<TParser>(Action<TParser>? configurationCallback = null)
             where TParser : MarkdownInline.Parser, new();
 
         /// <summary>

@@ -25,14 +25,14 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the source code to display.
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the Language specified in prefix, e.g. ```c# (Github Style Parsing).<para/>
         /// This does not guarantee that the Code Block has a language, or no language, some valid code might not have been prefixed, and this will still return null. <para/>
         /// To ensure all Code is Highlighted (If desired), you might have to determine the language from the provided string, such as looking for key words.
         /// </summary>
-        public string CodeLanguage { get; set; }
+        public string? CodeLanguage { get; set; }
 
 
         protected override string StringRepresentation()
@@ -49,7 +49,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         public class ParserIndented : Parser<CodeBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<CodeBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<CodeBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (!lineStartsNewParagraph)
                 {
@@ -116,7 +116,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         public class ParserTicked : Parser<CodeBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<CodeBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<CodeBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (!lineStartsNewParagraph)
                 {

@@ -25,13 +25,13 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the text for this run.
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
         /// <summary>
         /// Parses unformatted text.
         /// </summary>
         /// <returns> A parsed text span. Or <c>null</c> if no text could be parsed.</returns>
-        internal static TextRunInline Parse(LineBlock markdown, bool trimStart, bool trimEnd, MarkdownDocument document)
+        internal static TextRunInline? Parse(LineBlock markdown, bool trimStart, bool trimEnd, MarkdownDocument document)
         {
             var output = document.ResolveEscapeSequences(markdown, trimStart, trimEnd).ToString();
 

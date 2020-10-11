@@ -25,7 +25,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the contents of the inline.
         /// </summary>
-        public IList<MarkdownInline> Inlines { get; set; }
+        public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
 
         /// <summary>
         /// Attempts to parse a bold text span.

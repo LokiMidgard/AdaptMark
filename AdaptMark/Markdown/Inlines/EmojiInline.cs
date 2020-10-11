@@ -21,6 +21,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public EmojiInline()
             : base(MarkdownInlineType.Emoji)
         {
+            this.Text = string.Empty;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            protected override InlineParseResult<EmojiInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<EmojiInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
 

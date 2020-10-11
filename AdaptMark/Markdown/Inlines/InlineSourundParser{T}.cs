@@ -51,7 +51,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         }
 
         /// <inheritdoc/>
-        protected sealed override InlineParseResult<T> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+        protected sealed override InlineParseResult<T>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
         {
             // Ignore escaped sequences
             if (tripPos.Column > 0 && markdown[tripPos.Line][tripPos.Column - 1] == '\\')

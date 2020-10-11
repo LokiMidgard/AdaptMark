@@ -35,7 +35,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         {
         }
 
-        public static string ToString(IList<MarkdownBlock> blocks)
+        public static string ToString(IList<MarkdownBlock>? blocks)
         {
             if (blocks == null)
                 return string.Empty;
@@ -118,8 +118,8 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// </summary>
         public abstract class Parser
         {
-            private IEnumerable<Type> defaultAfterParsers;
-            private IEnumerable<Type> defaultBeforeParsers;
+            private IEnumerable<Type>? defaultAfterParsers;
+            private IEnumerable<Type>? defaultBeforeParsers;
 
             internal Parser()
             {
@@ -165,7 +165,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
             /// <param name="document">The Document which is parsing.</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            public abstract BlockParseResult Parse(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
+            public abstract BlockParseResult? Parse(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
         }
 
         /// <summary>
@@ -183,10 +183,10 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
             /// <param name="document">The Document which is parsing.</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            protected abstract BlockParseResult<TBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
+            protected abstract BlockParseResult<TBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
 
             /// <inheritdoc/>
-            public sealed override BlockParseResult Parse(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startLine, lineStartsNewParagraph, document);
+            public sealed override BlockParseResult? Parse(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startLine, lineStartsNewParagraph, document);
         }
     }
 }

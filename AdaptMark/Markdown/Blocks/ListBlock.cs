@@ -30,7 +30,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the list items.
         /// </summary>
-        public IList<ListItemBlock> Items { get; set; }
+        public IList<ListItemBlock> Items { get; set; } = Array.Empty<ListItemBlock>();
 
         /// <summary>
         /// Gets or sets the style of the list, either numbered or bulleted.
@@ -41,7 +41,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// Parsing helper method.
         /// </summary>
         /// <returns>Returns a ListItemPreamble.</returns>
-        private static ListItemPreamble ParseItemPreamble(string markdown, int start, int maxEnd)
+        private static ListItemPreamble? ParseItemPreamble(string markdown, int start, int maxEnd)
         {
             // There are two types of lists.
             // A numbered list starts with a number, then a period ('.'), then a space.
@@ -104,7 +104,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <param name="newLine">True if the text is a new line. Prefixed whitespace is ignored then.</param>
         private static void AppendTextToListItem(ListItemBlock listItem, string markdown, int start, int end, bool newLine = false)
         {
-            ListItemBuilder listItemBuilder = null;
+            ListItemBuilder? listItemBuilder = null;
             if (listItem.Blocks.Count > 0)
             {
                 listItemBuilder = listItem.Blocks[listItem.Blocks.Count - 1] as ListItemBuilder;
@@ -255,12 +255,12 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<ListBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<ListBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var startBlock = markdown.SliceLines(startLine);
                 var subBlock = startBlock;
 
-                List<ListItemBlock> itemList = null;
+                List<ListItemBlock>? itemList = null;
 
                 ListStyle? listStyle = null;
 
@@ -303,10 +303,12 @@ namespace AdaptMark.Parsers.Markdown.Blocks
                     return null;
                 }
 
+                
+
                 var result = new ListBlock()
                 {
-                    Style = listStyle.Value,
-                    Items = itemList,
+                    Style = listStyle!.Value,// we know its not null since it gets set if an item is added to the list.
+                    Items = itemList!, // we know its not null since it gets set if an item is added to the list.
                 };
 
                 return BlockParseResult.Create(result, startLine, startBlock.LineCount - subBlock.LineCount - lastSkipedBlankLines/*We skiped some white space after the block*/);

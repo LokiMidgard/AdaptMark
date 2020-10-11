@@ -21,6 +21,8 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public HyperlinkInline()
             : base(MarkdownInlineType.RawHyperlink)
         {
+            this.Text = string.Empty;
+            this.Url = string.Empty;
         }
 
         /// <summary>
@@ -36,7 +38,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets this type of hyperlink does not have a tooltip.
         /// </summary>
-        string ILinkElement.Tooltip => null;
+        string? ILinkElement.Tooltip => null;
 
         /// <summary>
         /// Gets or sets the type of hyperlink.
@@ -49,7 +51,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public class AngleBracketLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -102,7 +104,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public class UrlParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -165,7 +167,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public class ReditLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
                 var result = ParseDoubleSlashLink(line, tripPos);
@@ -184,7 +186,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             /// Parse a link of the form "/r/news" or "/u/quinbd".
             /// </summary>
             /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
-            private static InlineParseResult<HyperlinkInline> ParseDoubleSlashLink(ReadOnlySpan<char> line, LineBlockPosition tripPos)
+            private static InlineParseResult<HyperlinkInline>? ParseDoubleSlashLink(ReadOnlySpan<char> line, LineBlockPosition tripPos)
             {
                 var link = line.Slice(tripPos.Column);
 
@@ -233,7 +235,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             /// Parse a link of the form "r/news" or "u/quinbd".
             /// </summary>
             /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
-            private static InlineParseResult<HyperlinkInline> ParseSingleSlashLink(ReadOnlySpan<char> line, LineBlockPosition tripPos)
+            private static InlineParseResult<HyperlinkInline>? ParseSingleSlashLink(ReadOnlySpan<char> line, LineBlockPosition tripPos)
             {
                 if (tripPos.Column == 0)
                 {
@@ -315,7 +317,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public class PartialLinkParser : Parser<HyperlinkInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 var line = markdown[tripPos.Line];
                 int start = tripPos.Column - 3;
@@ -354,7 +356,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         {
             private readonly HashSet<char> allowedchars = new HashSet<char> { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
             /// <inheritdoc/>
-            protected override InlineParseResult<HyperlinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<HyperlinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 // Search backwards until we find a character which is not a letter, digit, or one of
                 // these characters: '+', '-', '_', '.'.

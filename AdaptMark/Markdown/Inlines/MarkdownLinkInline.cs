@@ -26,22 +26,22 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the contents of the inline.
         /// </summary>
-        public IList<MarkdownInline> Inlines { get; set; }
+        public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
 
         /// <summary>
         /// Gets or sets the link URL.
         /// </summary>
-        public string Url { get; set; }
+        public string Url { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets a tooltip to display on hover.
         /// </summary>
-        public string Tooltip { get; set; }
+        public string? Tooltip { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of a reference, if this is a reference-style link.
         /// </summary>
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
 
         /// <summary>
         /// Attempts to parse a markdown link e.g. "[](http://www.reddit.com)".
@@ -57,7 +57,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "[".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
@@ -106,7 +106,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
 
                 // Check if there is tooltip text.
                 string url;
-                string tooltip = null;
+                string? tooltip = null;
                 bool lastUrlCharIsDoubleQuote = innerPart[innerPart.Length - 1] == '"';
                 int tooltipStart = innerPart.IndexOf('\"');
                 if (tooltipStart == 0)
@@ -205,7 +205,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "[".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {

@@ -32,7 +32,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         public new class Parser : Parser<HorizontalRuleBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<HorizontalRuleBlock> ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HorizontalRuleBlock>? ParseInternal(in LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var line = markdown[startLine];
 

@@ -19,6 +19,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public CommentInline()
             : base(MarkdownInlineType.Comment)
         {
+            this.Text = string.Empty;
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         public new class Parser : Parser<CommentInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CommentInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<CommentInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {

@@ -25,7 +25,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Gets or sets the contents of the block.
         /// </summary>
-        public IList<MarkdownInline> Inlines { get; set; }
+        public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
 
         /// <summary>
         /// Parses paragraph text.
@@ -33,7 +33,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <param name="markdown">The markdown text. </param>
         /// <param name="document">The parsing Document.</param>
         /// <returns> A parsed paragraph. Or <c>null</c> if nothing was parsed.</returns>
-        public static ParagraphBlock Parse(LineBlock markdown, MarkdownDocument document)
+        public static ParagraphBlock? Parse(LineBlock markdown, MarkdownDocument document)
         {
             var inlines = document.ParseInlineChildren(markdown, true, true);
 

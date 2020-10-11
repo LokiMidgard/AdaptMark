@@ -25,7 +25,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets or sets the contents of the inline.
         /// </summary>
-        public IList<MarkdownInline> Inlines { get; set; }
+        public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
 
         /// <summary>
         /// Returns the chars that if found means we might have a match.
@@ -60,7 +60,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             public override ReadOnlySpan<char> TripChar => "^".AsSpan();
 
             /// <inheritdoc/>
-            protected override InlineParseResult<SuperscriptTextInline> ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
+            protected override InlineParseResult<SuperscriptTextInline>? ParseInternal(in LineBlock markdown, in LineBlockPosition tripPos, MarkdownDocument document, HashSet<Type> ignoredParsers)
             {
                 if (!tripPos.IsIn(markdown))
                 {
