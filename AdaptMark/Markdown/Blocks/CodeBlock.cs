@@ -34,13 +34,13 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// </summary>
         public string CodeLanguage { get; set; }
 
-        /// <summary>
-        /// Converts the object into it's textual representation.
-        /// </summary>
-        /// <returns> The textual representation of this object. </returns>
-        public override string ToString()
+
+        protected override string StringRepresentation()
         {
-            return Text;
+            return @$"
+```
+{this.Text}
+```";
         }
 
         /// <summary>

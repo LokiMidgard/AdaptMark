@@ -106,5 +106,10 @@ namespace AdaptMark.Parsers.Markdown.Inlines
 
         /// <inheritdoc/>
         public string Text { get; set; }
+
+        protected override string StringRepresentation()
+        {
+            return Text;
+        }
     }
 }

@@ -14,5 +14,10 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             : base(MarkdownBlockType.ListItemBuilder)
         {
         }
+
+        protected override string StringRepresentation()
+        {
+            return Builder.ToString();
+        }
     }
 }

@@ -80,6 +80,22 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         }
 
         /// <summary>
+        /// Returns the String representation of the Markdown Element
+        /// </summary>
+        /// <returns>The String representation of the Markdown Element</returns>
+        public override sealed string ToString()
+        {
+            return this.StringRepresentation();
+        }
+
+        protected abstract string StringRepresentation();
+
+        public static string ToString(IEnumerable<MarkdownInline> inlines)
+        {
+            return string.Join(string.Empty, inlines);
+        }
+
+        /// <summary>
         /// An Abstract base class of Block Parsers.
         /// </summary>
         public abstract class Parser

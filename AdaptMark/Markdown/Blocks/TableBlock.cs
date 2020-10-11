@@ -37,6 +37,43 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// </summary>
         public IList<TableColumnDefinition> ColumnDefinitions { get; set; }
 
+        protected override string StringRepresentation()
+        {
+            var str = new StringBuilder();
+            bool firstRow = true;
+            foreach (var row in Rows)
+            {
+                foreach (var cell in row.Cells)
+                {
+                    str.Append('|');
+                    str.Append(Inlines.MarkdownInline.ToString(cell.Inlines));
+                }
+                str.Append('|');
+                str.AppendLine();
+                if (firstRow)
+                {
+                    foreach (var cd in this.ColumnDefinitions)
+                    {
+                        str.Append('|');
+                        str.Append(cd.Alignment switch
+                        {
+                            ColumnAlignment.Center => ":-:",
+                            ColumnAlignment.Left => ":--",
+                            ColumnAlignment.Right => "--:",
+                            ColumnAlignment.Unspecified => "---",
+                            _ => throw new NotSupportedException()
+                        });
+                    }
+                    str.Append('|');
+                    str.AppendLine();
+                    firstRow = false;
+                }
+            }
+
+            return str.ToString();
+
+        }
+
         /// <summary>
         /// Describes a column in the markdown table.
         /// </summary>

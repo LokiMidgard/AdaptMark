@@ -138,15 +138,11 @@ namespace AdaptMark.Parsers.Markdown.Blocks
             builder.Append(markdown, start, end - start);
         }
 
-        /// <summary>
-        /// Converts the object into it's textual representation.
-        /// </summary>
-        /// <returns> The textual representation of this object. </returns>
-        public override string ToString()
+        protected override string StringRepresentation()
         {
             if (Items == null)
             {
-                return base.ToString();
+                return string.Empty;
             }
 
             var result = new StringBuilder();

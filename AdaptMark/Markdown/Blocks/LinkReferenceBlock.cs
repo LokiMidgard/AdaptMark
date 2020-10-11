@@ -39,11 +39,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// </summary>
         public string Tooltip { get; set; }
 
-        /// <summary>
-        /// Converts the object into it's textual representation.
-        /// </summary>
-        /// <returns> The textual representation of this object. </returns>
-        public override string ToString()
+        protected override string StringRepresentation()
         {
             return string.Format("[{0}]: {1} {2}", Id, Url, Tooltip);
         }

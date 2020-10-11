@@ -48,11 +48,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
             };
         }
 
-        /// <summary>
-        /// Converts the object into it's textual representation.
-        /// </summary>
-        /// <returns> The textual representation of this object. </returns>
-        public override string ToString()
+        protected override string StringRepresentation()
         {
             if (Inlines == null)
             {

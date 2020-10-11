@@ -1059,18 +1059,9 @@ namespace AdaptMark.Parsers.Markdown
             return result;
         }
 
-        /// <summary>
-        /// Converts the object into it's textual representation.
-        /// </summary>
-        /// <returns> The textual representation of this object. </returns>
-        public override string ToString()
+        protected override string StringRepresentation()
         {
-            if (Blocks == null)
-            {
-                return base.ToString();
-            }
-
-            return string.Join("\r\n", Blocks);
+            return MarkdownBlock.ToString(this.Blocks);
         }
 
         private static IEnumerable<MarkdownBlock.Parser> TopologicalSort(IEnumerable<MarkdownBlock.Parser> parsers)

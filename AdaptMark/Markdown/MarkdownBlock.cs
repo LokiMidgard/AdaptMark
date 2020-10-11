@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AdaptMark.Parsers.Markdown.Helpers;
 
 namespace AdaptMark.Parsers.Markdown.Blocks
@@ -34,6 +35,13 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         {
         }
 
+        public static string ToString(IList<MarkdownBlock>? blocks)
+        {
+            if (blocks == null)
+                return string.Empty;
+            return string.Join("\n\n", blocks.Select(x => x.ToString()));
+        }
+
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
@@ -48,6 +56,17 @@ namespace AdaptMark.Parsers.Markdown.Blocks
 
             return Type == ((MarkdownBlock)obj).Type;
         }
+
+        /// <summary>
+        /// Returns the String representation of the Markdown Element
+        /// </summary>
+        /// <returns>The String representation of the Markdown Element</returns>
+        public override sealed string ToString()
+        {
+            return this.StringRepresentation();
+        }
+
+        protected abstract string StringRepresentation();
 
         /// <summary>
         /// Serves as the default hash function.

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AdaptMark.Parsers.Markdown.Helpers;
 
 namespace AdaptMark.Parsers.Markdown.Blocks
@@ -27,6 +28,24 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
+
+        protected override string StringRepresentation()
+        {
+            var txt = MarkdownBlock.ToString(this.Blocks);
+
+            var block = new LineBlock(txt.AsSpan());
+            var builder = new StringBuilder();
+
+            for (int i = 0; i < block.LineCount; i++)
+            {
+                var line = block[i];
+                builder.Append("> ");
+                builder.AppendLine(line.ToString());
+            }
+
+
+            return builder.ToString();
+        }
 
         /// <summary>
         /// Parses QuoteBlock.
