@@ -130,6 +130,55 @@ World";
         }
 
         [TestMethod]
+        public void IndexOfAnyWith2Characters()
+        {
+            var l = new LineBlock(TEXT.AsSpan());
+            l = l.RemoveFromLineStart(2);
+
+            Assert.AreEqual(4, l.LineCount);
+            Assert.AreEqual("llo", l[0].ToString());
+            Assert.AreEqual("lt", l[1].ToString());
+            Assert.AreEqual("llo", l[2].ToString());
+            Assert.AreEqual("rld", l[3].ToString());
+
+            var shorted = l.IndexOfAny(new LineBlock.IndexOfAnyInput("t=".AsMemory()), new LineBlockPosition(0, 0, 0));
+            Assert.AreEqual(new LineBlockPosition(1, 1, 5), shorted);
+        }
+
+        [TestMethod]
+        public void IndexOfAnyWith1Characters()
+        {
+            var l = new LineBlock(TEXT.AsSpan());
+            l = l.RemoveFromLineStart(2);
+
+            Assert.AreEqual(4, l.LineCount);
+            Assert.AreEqual("llo", l[0].ToString());
+            Assert.AreEqual("lt", l[1].ToString());
+            Assert.AreEqual("llo", l[2].ToString());
+            Assert.AreEqual("rld", l[3].ToString());
+
+            var shorted = l.IndexOfAny(new LineBlock.IndexOfAnyInput("t".AsMemory()), new LineBlockPosition(0, 0, 0));
+            Assert.AreEqual(new LineBlockPosition(1, 1, 5), shorted);
+        }
+
+        [TestMethod]
+        public void IndexOf()
+        {
+            var l = new LineBlock(TEXT.AsSpan());
+            l = l.RemoveFromLineStart(2);
+
+            Assert.AreEqual(4, l.LineCount);
+            Assert.AreEqual("llo", l[0].ToString());
+            Assert.AreEqual("lt", l[1].ToString());
+            Assert.AreEqual("llo", l[2].ToString());
+            Assert.AreEqual("rld", l[3].ToString());
+
+            var shorted = l.IndexOf('t');
+            Assert.AreEqual(new LineBlockPosition(1, 1, 5), shorted);
+        }
+
+
+        [TestMethod]
         public void SliceStartMoreThen1Line()
         {
             var l = new LineBlock(TEXT.AsSpan());
