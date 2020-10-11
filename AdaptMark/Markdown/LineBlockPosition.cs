@@ -141,6 +141,11 @@ namespace AdaptMark.Parsers.Markdown
             return !(left == right);
         }
 
+        public override string ToString()
+        {
+            return $"({this.Line},{this.Column},{this.FromStart})";
+        }
+
         internal LineBlockPosition Add(int toAdd, LineBlock markdown)
         {
             if (this.Column + toAdd <= markdown[this.Line].Length || this.Line == markdown.LineCount - 1)
