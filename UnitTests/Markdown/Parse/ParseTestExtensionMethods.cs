@@ -68,9 +68,9 @@ namespace UnitTests.Markdown.Parse
         private static void AddChild<T>(Func<IList<T>> getter, Action<IList<T>> setter, T child)
         {
             var list = getter();
-            if (list == null || list is not List<T>)
+            if (list == null || !(list is List<T>))
             {
-                list = list is not null ? new List<T>(list) : new List<T>();
+                list = list is null ? new List<T>() : new List<T>(list);
                 setter(list);
             }
             list.Add(child);
