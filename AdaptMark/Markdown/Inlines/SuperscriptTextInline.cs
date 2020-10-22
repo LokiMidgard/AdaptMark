@@ -27,6 +27,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
 
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
         /// <summary>
         /// Returns the chars that if found means we might have a match.
         /// </summary>

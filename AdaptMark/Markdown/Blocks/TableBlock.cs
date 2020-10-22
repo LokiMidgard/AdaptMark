@@ -15,7 +15,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a block which contains tabular data.
     /// </summary>
-    public class TableBlock : MarkdownBlock
+    public class TableBlock : MarkdownBlock, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TableBlock"/> class.
@@ -36,6 +36,17 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// more cells, the extra cells should be hidden.
         /// </summary>
         public IList<TableColumnDefinition> ColumnDefinitions { get; set; } = Array.Empty<TableColumnDefinition>();
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines
+        {
+            get
+            {
+                var list = new List<MarkdownInline>();
+                foreach (var row in Rows)
+                    foreach (var cell in row.Cells)
+                        list.AddRange(cell.Inlines);
+                return list;
+            }
+        }
 
         protected override string StringRepresentation()
         {
@@ -264,12 +275,13 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// <summary>
         /// Represents a cell in the table.
         /// </summary>
-        public class TableCell
+        public class TableCell : IInlineContainer
         {
             /// <summary>
             /// Gets or sets the cell contents.
             /// </summary>
             public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a block of text that is displayed as a single paragraph.
     /// </summary>
-    public class ParagraphBlock : MarkdownBlock
+    public class ParagraphBlock : MarkdownBlock, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParagraphBlock"/> class.
@@ -26,6 +26,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
 
         /// <summary>
         /// Parses paragraph text.

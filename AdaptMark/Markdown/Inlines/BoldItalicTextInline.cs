@@ -28,6 +28,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
         /// <summary>
         /// Attempts to parse a bold text span.
         /// </summary>

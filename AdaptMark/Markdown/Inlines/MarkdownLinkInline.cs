@@ -28,6 +28,7 @@ namespace AdaptMark.Parsers.Markdown.Inlines
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
 
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
         /// <summary>
         /// Gets or sets the link URL.
         /// </summary>

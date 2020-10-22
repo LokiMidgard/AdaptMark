@@ -13,7 +13,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a heading.
     /// </summary>
-    public class HeaderBlock : MarkdownBlock
+    public class HeaderBlock : MarkdownBlock, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderBlock"/> class.
@@ -50,7 +50,8 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; } = Array.Empty<MarkdownInline>();
-        
+
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
 
         protected override string StringRepresentation()
         {

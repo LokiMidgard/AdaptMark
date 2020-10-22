@@ -12,8 +12,9 @@ namespace AdaptMark.Parsers.Markdown.Inlines
     public interface IInlineContainer
     {
         /// <summary>
-        /// Gets or sets the contents of the inline.
+        /// Gets the contents of the inline.
         /// </summary>
-        IList<MarkdownInline> Inlines { get; set; }
+        IReadOnlyList<MarkdownInline> Inlines { get; }
+        IReadOnlyList<MarkdownInline> IInlineContainer.Inlines => this.Inlines.AsReadonly();
     }
 }
