@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AdaptMark.Markdown.Blocks;
 using AdaptMark.Parsers.Markdown.Helpers;
 
 namespace AdaptMark.Parsers.Markdown.Blocks
@@ -14,7 +15,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
     /// Represents a block that is displayed using a quote style.  Quotes are used to indicate
     /// that the text originated elsewhere (e.g. a previous comment).
     /// </summary>
-    public class QuoteBlock : MarkdownBlock
+    public class QuoteBlock : MarkdownBlock, IBlockContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QuoteBlock"/> class.
@@ -28,6 +29,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// Gets or sets the contents of the block.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; } = Array.Empty<MarkdownBlock>();
+        IReadOnlyList<MarkdownBlock> IBlockContainer.Blocks => this.Blocks.AsReadonly();
 
         protected override string StringRepresentation()
         {

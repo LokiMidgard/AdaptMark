@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AdaptMark.Markdown.Blocks;
 using AdaptMark.Parsers.Markdown.Blocks;
 using AdaptMark.Parsers.Markdown.Helpers;
 using AdaptMark.Parsers.Markdown.Inlines;
@@ -17,7 +18,7 @@ namespace AdaptMark.Parsers.Markdown
     /// Represents a Markdown Document. <para/>
     /// Initialize an instance and call <see cref="Parse(string)"/> to parse the Raw Markdown Text.
     /// </summary>
-    public class MarkdownDocument : MarkdownBlock
+    public class MarkdownDocument : MarkdownBlock, IBlockContainer
     {
         /// <summary>
         /// Gets a list of URL schemes.
@@ -397,6 +398,7 @@ namespace AdaptMark.Parsers.Markdown
         /// Gets or sets the list of block elements.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
+        IReadOnlyList<MarkdownBlock> IBlockContainer.Blocks => this.Blocks.AsReadonly();
 
         /// <summary>
         /// Returns a builder with the same configuraiton as the one that created this Document.

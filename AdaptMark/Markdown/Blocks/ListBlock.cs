@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using AdaptMark.Markdown.Blocks;
 using AdaptMark.Parsers.Core;
 using AdaptMark.Parsers.Markdown.Helpers;
 
@@ -17,7 +18,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a list, with each list item proceeded by either a number or a bullet.
     /// </summary>
-    public class ListBlock : MarkdownBlock
+    public class ListBlock : MarkdownBlock, IBlockContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBlock"/> class.
@@ -31,6 +32,15 @@ namespace AdaptMark.Parsers.Markdown.Blocks
         /// Gets or sets the list items.
         /// </summary>
         public IList<ListItemBlock> Items { get; set; } = Array.Empty<ListItemBlock>();
+
+        IReadOnlyList<MarkdownBlock> IBlockContainer.Blocks
+        {
+            get
+            {
+                return this.Items.SelectMany(x => x.Blocks).ToList().AsReadOnly();
+            }
+        }
+
 
         /// <summary>
         /// Gets or sets the style of the list, either numbered or bulleted.
@@ -303,7 +313,7 @@ namespace AdaptMark.Parsers.Markdown.Blocks
                     return null;
                 }
 
-                
+
 
                 var result = new ListBlock()
                 {
